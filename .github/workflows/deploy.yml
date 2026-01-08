@@ -1,0 +1,44 @@
+name: Deploy Server (Serverless)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+
+      - name: Deploy to AWS
+        run: npm run deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+          # Database
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+          # Application
+          NODE_ENV: development
+          LOG_LEVEL: info
+
+          # Rate Limiting
+          RATE_LIMIT_MESSAGES: 20
+          RATE_LIMIT_WINDOW_MINUTES: 1
+          MAX_MESSAGE_LENGTH: 500
