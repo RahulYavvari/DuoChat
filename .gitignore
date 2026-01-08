@@ -1,0 +1,8 @@
+prototype-client
+.env
+node_modules
+.build
+build
+dist
+temp-client
+README-demo.md

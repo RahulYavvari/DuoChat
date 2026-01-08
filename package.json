@@ -1,0 +1,12 @@
+{
+  "name": "anonymous-chat",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy:server": "cd server && npm run deploy",
+    "up:client": "cd client && npm run dev"
+  },
+  "keywords": [],
+  "author": "RahulYavvari",
+  "license": "ISC",
+  "description": ""
+}

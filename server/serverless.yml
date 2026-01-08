@@ -1,0 +1,71 @@
+service: anonymous-chat-backend
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-2
+  stage: ${opt:stage, 'dev'}
+  
+  environment:
+    DATABASE_URL: ${DATABASE_URL}
+    NODE_ENV: production
+    WEBSOCKET_ENDPOINT:
+      Fn::Sub: 'https://${WebsocketsApi}.execute-api.${AWS::Region}.amazonaws.com/${sls:stage}'
+  
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - execute-api:ManageConnections
+          Resource: 'arn:aws:execute-api:*:*:*/@connections/*'
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-esbuild
+
+custom:
+  dotenv:
+    path: .env
+
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    target: node18
+    platform: node
+    format: cjs
+    external:
+      - '@aws-sdk/*'
+
+functions:
+  connect:
+    handler: src/handlers/connect.handler
+    events:
+      - websocket:
+          route: $connect
+    timeout: 10
+    memorySize: 256
+
+  disconnect:
+    handler: src/handlers/disconnect.handler
+    events:
+      - websocket:
+          route: $disconnect
+    timeout: 10
+    memorySize: 256
+
+  message:
+    handler: src/handlers/message.handler
+    events:
+      - websocket:
+          route: $default
+    timeout: 10
+    memorySize: 256
+
+resources:
+  Outputs:
+    WebSocketURL:
+      Description: WebSocket API URL
+      Value:
+        Fn::Sub: 'wss://${WebsocketsApi}.execute-api.${AWS::Region}.amazonaws.com/${sls:stage}'
