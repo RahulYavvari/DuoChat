@@ -44,6 +44,11 @@ active_chats (chat_id, user1_id, user2_id, connection_ids)
 message_log (user_id, sent_at, message_length) -- For rate limiting
 ```
 
+**User Status States:**
+- **IDLE**: User connected, not actively searching for partner
+- **SEARCHING**: User actively looking for a match in waiting queue
+- **CHATTING**: User matched and in active conversation
+
 **Key Design Decisions:**
 - **UUID-based user identification** for complete anonymity
 - **Connection pooling** in Neon to reduce latency and improve performance
