@@ -239,7 +239,7 @@ CHAT_ENDED | PARTNER_DISCONNECTED | ERROR
 ### Core Functionality
 - Anonymous user connection (no login required)
 - Temporary session/user ID generation
-- Random matchmaking (one active chat per user)
+- Fair FIFO-based matchmaking with emergent randomness (one active chat per user)
 - Real-time text messaging
 - Skip/end chat and re-match functionality
 - Proper disconnect handling with partner notification
