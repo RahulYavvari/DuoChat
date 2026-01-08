@@ -209,8 +209,12 @@ npm run seed
    - **Improvement**: Add Redis for connection state caching
 
 5. **No retry logic for lost connections**
-- If connection is lost during chat, retry is not implemented, but they are notified. The users have to start a new chat
+   - If connection is lost during chat, retry is not implemented, but they are notified. The users have to start a new chat
    - **Improvement**: Implement retry logic for lost connections
+
+6. **No content moderation**
+   - No content moderation is implemented, which means that users can send any content they want
+   - **Improvement**: Implement content moderation for messages
 
 ## Technical Implementation Details
 
